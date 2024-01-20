@@ -17,3 +17,4 @@ if __name__ == "__main__":
     print(arr1)
     print(arr2)
     print(add_arrays(arr1, [1, 2, 3]))
+    
