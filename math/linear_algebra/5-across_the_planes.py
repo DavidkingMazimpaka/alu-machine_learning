@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 '''
- This program add two matrices
+a function def add_matrices2D(mat1, mat2):
+that adds two matrices element-wise
 '''
+
+
 def add_matrices2D(mat1, mat2):
     '''
     This function computes two matrices
