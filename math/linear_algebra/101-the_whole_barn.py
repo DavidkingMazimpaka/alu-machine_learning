@@ -1,42 +1,23 @@
 #!/usr/bin/env python3
-'''
-    A function def cat_matrices(mat1, mat2, axis=0)
-    that concatenates two matrices along a specific axis
-'''
+"""
+A function `add_matrices(mat1, mat2)`
+that adds two matrices.
+"""
 
-
-def matrix_shape(matrix):
+def add_matrices(mat1, mat2):
     """
-        Get the matrix shape
+    Adds two matrices.
+    Parameters:
+    mat1 (list or int or float): The first matrix or element.
+    mat2 (list or int or float): The second matrix or element.
+    Returns:
+    list or int or float: The result
+    of matrix addition or the sum of two elements.
+    Returns None if matrices are not compatible for addition.
     """
-    matrix_shape = []
-    while (type(matrix) is list):
-        matrix_shape.append(len(matrix))
-        matrix = matrix[0]
-    return matrix_shape
-
-
-def cat_matrices(mat1, mat2, axis=0):
-    """
-        concatenate a matrix
-    """
-    from copy import deepcopy
-    shape1 = matrix_shape(mat1)
-    shape2 = matrix_shape(mat2)
-    if len(shape1) != len(shape2):
-        return None
-    for i in range(len(shape1)):
-        if i != axis:
-            if shape1[i] != shape2[i]:
-                return None
-    return rec(deepcopy(mat1), deepcopy(mat2), axis, 0)
-
-
-def rec(m1, m2, axis=0, current=0):
-    """
-        Do some reclusive calling
-    """
-    if axis != current:
-        return [rec(m1[i], m2[i], axis, current + 1) for i in range(len(m1))]
-    m1.extend(m2)
-    return m1
+    if isinstance(mat1, list) and isinstance(mat2, list):
+        if len(mat1) == len(mat2):
+            return [add_matrices(a, b) for a, b in zip(mat1, mat2)]
+    elif isinstance(mat1, (int, float)) and isinstance(mat2, (int, float)):
+        return mat1 + mat2
+    return None
