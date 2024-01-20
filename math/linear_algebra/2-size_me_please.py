@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-
-""" matrix shape"""
+""" matrix shape function"""
 def matrix_shape(matrix):
     shape = []
     while isinstance(matrix, list):
