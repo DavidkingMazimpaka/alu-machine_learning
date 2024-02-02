@@ -24,26 +24,18 @@ def poly_integral(poly, C=0):
         - If poly or C are not valid, return None.
     """
     # Check if poly is a valid list of coefficients
-    if not isinstance(poly, list) or not all(isinstance(coeff, (int, float)) for coeff in poly):
+    if not isinstance(poly, list) or len(poly) == 0 or not isinstance(C, int):
         return None
-    
-    # Check if C is a valid integer
-    if not isinstance(C, int):
-        return None
-    
-    # Calculate the integral of the polynomial
-    integral_coeffs = [C]
-    for i in range(len(poly)):
-        if i == 0:
-            integral_coeffs.append(poly[i] / (i + 1))
-        else:
-            integral_coeffs.append(poly[i] / (i + 1))
-    
-    # Remove trailing zeros from the integral coefficients
-    while integral_coeffs[-1] == 0 and len(integral_coeffs) > 1:
-        integral_coeffs.pop()
-    
-    return integral_coeffs
+    for i in range(len(poly)-1, 0, -1):
+        integral.append(poly[i]/(i+1))
 
-# Test the function
-print(poly_integral([5, 3, 0, 1]))  # Output: [0, 5, 1.5, 0, 0.25]
+    integral.append(poly[0])
+    integral.append(C)
+
+    if len(poly) == 1 and poly[0] == 0:
+        integral = [C]
+    for i in range(len(integral)):
+        if integral[i] % 1== 0:
+            integral[i] = int(integral[i])
+
+    return integral[::-1]

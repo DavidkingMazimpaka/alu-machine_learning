@@ -5,12 +5,18 @@ calculates the sum of squared elements
 
 
 def summation_i_squared(n):
-    if not isinstance(n, int) or n < 1:
-        return None
-    elif n == 1:
+    """summation of i
+    
+    Keyword arguments:
+    Return: return None
+    """
+    if n == 1:
         return 1
+    if n < 1:
+        return None
     else:
-        return n**2 + summation_i_squared(n-1)
+        answer = (n*(n+1)*(2*n+1))//6
+        return answer
     
 
 #print(summation_i_squared(5))
