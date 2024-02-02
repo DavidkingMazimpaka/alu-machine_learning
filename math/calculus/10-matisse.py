@@ -15,4 +15,4 @@ def poly_derivative(poly):
         return [poly[i] * i for i in range(1, len(poly))] if sum(poly) != 0 else [0]
 
 
-#print(poly_derivative([5, 3, 0, 1]))
+# print(poly_derivative([5, 3, 0, 1]))
