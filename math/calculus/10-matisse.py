@@ -5,6 +5,10 @@
 
 def poly_derivative(poly):
     """ Find the derivative of polynomial
+    Example: if f(x) = x^3 +4x^2 + 9x +5, poly is equal to [5, 3, 4, 1]
+
+    Args:
+        poly (_type_): _description_
     """
     derivative = []
     if not isinstance(poly, list) or len(poly) == 0:
