@@ -20,4 +20,3 @@ def summation_i_squared(n):
 
 
 # print(summation_i_squared(5))
-    
