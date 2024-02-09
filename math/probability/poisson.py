@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-""" 
-    Poison distribution Module which is a discrete probability distribution 
-    that describes the probability of a given number of events occurring in a fixed period of time.
-    the formula is  f(x) = P(X = x) = \frac{e^{-λ} λ^x}{x!} where x is the number of events, λ is the average number of events, e is the Euler's number and x! is the factorial of x.
-"""
+""" Poison distribution Module """
 
 
 class Poisson:
@@ -46,4 +42,4 @@ class Poisson:
         if k < 0:
             return 0
         return 1 - self.pmf(k)
-    
+     
