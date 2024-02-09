@@ -21,7 +21,6 @@ class Poisson:
             if len(data) < 2:
                 raise ValueError('data must contain multiple values')
             self.lambtha = float(sum(data) / len(data))
-
     def factorial(self, x):
         """Factorial function"""
         fact = 1
@@ -30,16 +29,13 @@ class Poisson:
         for i in range(1, x + 1):
             fact *= i
         return fact
-    
     def pmf(self, k):
         """Probability mass function"""
         if k < 0:
             return 0
         return ((self.lambtha ** k) * (self.e ** (-self.lambtha))) / self.factorial(k)
-
     def cdf(self, k):
         """Cumulative distribution function"""
         if k < 0:
             return 0
         return 1 - self.pmf(k)
-     
