@@ -46,3 +46,4 @@ class Poisson:
         if k < 0:
             return 0
         return 1 - self.pmf(k)
+    
