@@ -51,5 +51,3 @@ class Normal:
         """ Calculates the value of the error function 
         """
         return (2 / self.pi) * (self.e ** (-0.5 * x ** 2))
-    
-            
