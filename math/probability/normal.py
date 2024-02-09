@@ -4,7 +4,7 @@
 class Normal:
     """ Normal class
     """
-
+    
     def __init__(self, data=None, mean=0., stddev=1.):
         """ Constructor funct"""
         self.e = 2.7182818285
@@ -22,7 +22,7 @@ class Normal:
             if len(data) < 2:
                 raise ValueError('data must contain multiple values')
             self.mean = sum(data) / len(data)
-            self.stddev = (sum((x - self.mean) ** 2 for x in data) 
+            self.stddev = (sum([(x - self.mean) ** 2 for x in data]) 
                            / len(data)) ** 0.5
             
     def z_score(self, x):
@@ -33,21 +33,22 @@ class Normal:
     def x_value(self, z):
         """ Calculates the x-value of a given z-score
         """
-        return z * self.stddev + self.mean
+        return self.mean + z * self.stddev
     
     def pdf(self, x):
         """ Calculates the value of the PDF for a given x-value
         """
         return (self.e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2) 
-                / (self.stddev * (2 * self.pi) ** 0.5))
+                / (self.stddev * ((2 * self.pi) ** 0.5)))
     
     def cdf(self, x):
         """ Calculates the value of the CDF for a given x-value
         """
-        return (1 + (self.erf((x - self.mean) / 
-                              (self.stddev * 2 ** 0.5))) / 2)
+        return (0.5 * (1 + self.erf((x - self.mean) /
+                                    (self.stddev * 2 ** 0.5))))
     
     def erf(self, x):
         """ Calculates the value of the error function 
         """
-        return (2 / self.pi) * (self.e ** (-0.5 * x ** 2))
+        return (2 / (self.pi  ** 0.5)) * (x - (x ** 3) / 3 + (x ** 5) / 10
+                                         - (x ** 7) / 42 + (x ** 9) / 216)
