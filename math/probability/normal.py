@@ -1,4 +1,4 @@
-#!/usr/bin/env/python3
+#!/usr/bin/env python3
 """ Normal class module for normal distribution calculations """
 
 class Normal:
