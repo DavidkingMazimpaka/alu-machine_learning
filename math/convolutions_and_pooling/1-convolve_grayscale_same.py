@@ -5,18 +5,17 @@ import numpy as np
 
 def convolve_grayscale_same(images, kernel):
     """ Performs a same convolution on grayscale images """
-    m, h, w = images.shape
+    
     kh, kw = kernel.shape
-    ph = max((kh - 1) // 2, kh // 2)
-    pw = max((kw - 1) // 2, kw // 2)
-    padded_images = np.pad(images, ((0, 0), (ph, ph), (pw, pw)), mode='constant')
-    output_h = h
-    output_w = w
-    output = np.zeros((m, output_h, output_w))
-
-    for i in range(output_h):
-        for j in range(output_w):
-            square = output_w[:, h: h + kh, w: w + kw]
+    m, hm, wm = images.shape
+    ph = int(kh / 2)
+    pw = int(kw / 2)
+    padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw)), 'constant')
+    convoluted = np.zeros((m, hm, wm))
+    for h in range(hm):
+        for w in range(wm):
+            square = padded[:, h: h + kh, w: w + kw]
             insert = np.sum(square * kernel, axis=1).sum(axis=1)
-            output[:, h, w] = insert
-    return output
+            convoluted[:, h, w] = insert
+    return convoluted
+
