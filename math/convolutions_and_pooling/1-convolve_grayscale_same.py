@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy as np
 """ 1-Convolve grayscale images """
 
