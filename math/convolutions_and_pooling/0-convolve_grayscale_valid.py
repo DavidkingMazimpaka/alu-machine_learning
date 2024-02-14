@@ -1,6 +1,7 @@
 #!/user/bin/env python3
 """ 0-convolve_grayscale_valid """
 
+
 def convolve_grayscale_valid(images, kernel):
     """ performs a valid convolution on grayscale images """
     m, h, w = images.shape
