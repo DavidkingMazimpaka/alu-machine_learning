@@ -1,0 +1,7 @@
+{
+    "settings": {
+        "python.defaultInterpreter": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "python.pythonPath": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+        "python.linting.pylintEnabled": true,
+    }
+}
