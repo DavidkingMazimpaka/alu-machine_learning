@@ -5,7 +5,7 @@ import numpy as np
 
 def convolve_grayscale_same(images, kernel):
     """ Performs a same convolution on grayscale images """
-    
+
     kh, kw = kernel.shape
     m, hm, wm = images.shape
     ph = int(kh / 2)
@@ -18,4 +18,3 @@ def convolve_grayscale_same(images, kernel):
             insert = np.sum(square * kernel, axis=1).sum(axis=1)
             convoluted[:, h, w] = insert
     return convoluted
-
