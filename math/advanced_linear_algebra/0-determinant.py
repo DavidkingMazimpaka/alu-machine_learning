@@ -17,36 +17,28 @@ def determinant(matrix):
     Returns:
         float: The determinant of the matrix.
     """
-    # Check if matrix is a list of lists
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not all(type(row) == list for row in matrix):
         raise TypeError("matrix must be a list of lists")
-    
-    # Check if matrix is square
-    n_rows = len(matrix)
-    n_cols = len(matrix[0])
-    if n_rows != n_cols:
-        raise ValueError("matrix must be a square matrix")
-    
-    # Base case: 0x0 matrix has determinant 1
-    if n_rows == 0:
+    if len(matrix) == 0 or type(matrix) != list:
+        raise TypeError("matrix must be a list of lists")
+    if matrix == [[]]:
         return 1
-    
-    # Base case: 1x1 matrix
-    if n_rows == 1:
+    if not all(len(r) == len(matrix) for r in matrix):
+        raise ValueError("matrix must be a square matrix")
+    if len(matrix) == 1:
         return matrix[0][0]
-    
-    # Base case: 2x2 matrix
-    if n_rows == 2:
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
-    
-    # Recursive case: Use Laplace expansion along the first row
+    if len(matrix) == 2:
+        x = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
+        return x
     det = 0
-    for j in range(n_cols):
-        minor = [row[:j] + row[j+1:] for row in matrix[1:]]
-        det += (-1) ** j * matrix[0][j] * determinant(minor)
+    for x, num in enumerate(matrix):
+        temp = []
+        P = matrix[0][x]
+        for row in matrix[1:]:
+            new = []
+            for j in range(len(matrix)):
+                if j != x:
+                    new.append(row[j])
+            temp.append(new)
+        det += P * determinant(temp) * (-1) ** x
     return det
-
-# Test the function
-if __name__ == "__main__":
-    matrix = [[-2, -4, 2], [-2, 1, 2], [4, 2, 5]]
-    print(determinant(matrix))  # Output should be -79
