@@ -6,7 +6,6 @@ def cofactor(matrix):
     """ Calculates the cofactor of a matrix. """
     return minor(matrix)
 
-
 def determinant(matrix):
     """ Calculates the determinant of a square matrix. """
     if len(matrix) == 1:
