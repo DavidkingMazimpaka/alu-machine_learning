@@ -3,19 +3,10 @@
 Function to calculate the determinant of a square matrix.
 """
 
+
 def determinant(matrix):
     """
     Calculates the determinant of a square matrix.
-
-    Args:
-        matrix (list of lists): The matrix whose determinant should be calculated.
-
-    Raises:
-        TypeError: If matrix is not a list of lists.
-        ValueError: If matrix is not square.
-
-    Returns:
-        float: The determinant of the matrix.
     """
     if not all(type(row) == list for row in matrix):
         raise TypeError("matrix must be a list of lists")
