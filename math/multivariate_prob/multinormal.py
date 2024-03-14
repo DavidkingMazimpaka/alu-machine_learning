@@ -38,4 +38,3 @@ class MultiNormal():
         exp = (-.5 * np.matmul(np.matmul((x - m).T, inv), (x - m)))
         result = (1 / bottom) * np.exp(exp[0][0])
         return result
-    
