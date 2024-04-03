@@ -2,7 +2,7 @@
 """ Module for 100-continuous. """
 
 
-from scipy import special
+from scipy import special # type: ignore
 
 
 def posterior(x, n, p1, p2):
