@@ -17,6 +17,8 @@
 
 Here's an example of how to use the script with a sample dataset:
 
+1. a simple linear regression model to predict sales based on TV marketing expenses. You will investigate three different approaches to this problem. You will use NumPy and Scikit-Learn linear regression models, as well as construct and optimize the sum of squares cost function with gradient descent from scratch.
+
 ## Contributing
 
 COntributed by David King Mazimpaka -> <d.mazimpaka@alustudent.com>
