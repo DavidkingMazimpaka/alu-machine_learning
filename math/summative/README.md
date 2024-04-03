@@ -26,6 +26,6 @@ COntributed by David King Mazimpaka -> <d.mazimpaka@alustudent.com>
 
 ## License
 
-This project is licensed by the African LeadershiP University.
+This project is licensed by the African Leadership University.
 
 1. **Installation:** Ensure that you have Python installed on your system. Additionally, make sure to have the necessary dependencies installed. You can install dependencies using pip:
