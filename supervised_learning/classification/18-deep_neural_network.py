@@ -63,3 +63,24 @@ class DeepNeuralNetwork:
     def weights(self):
         """Return weights and bias dictionary"""
         return self.__weights
+
+    def forward_prop(self, X):
+        """ Forward propagation
+
+        Args:
+            X (numpy.array): Input array with
+            shape (nx, m) = (featurs, no of examples)
+        """
+        self.cache["A0"] = X
+        # print(self.cache)
+        for i in range(1, self.L+1):
+            # extract values
+            W = self.weights['W'+str(i)]
+            b = self.weights['b'+str(i)]
+            A = self.cache['A'+str(i - 1)]
+            # do forward propagation
+            z = np.matmul(W, A) + b
+            sigmoid = 1 / (1 + np.exp(-z))  # this is the output
+            # store output to the cache
+            self.cache["A"+str(i)] = sigmoid
+        return self.cache["A"+str(i)], self.cache
