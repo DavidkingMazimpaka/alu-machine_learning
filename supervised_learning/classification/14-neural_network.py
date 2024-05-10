@@ -12,10 +12,6 @@ class NeuralNetwork:
 
     def __init__(self, nx, nodes):
         """ Instantiation function
-
-        Args:
-            nx (int): size of the input layer
-            nodes (_type_): _description_
         """
         if not isinstance(nx, int):
             raise TypeError('nx must be an integer')
@@ -26,7 +22,6 @@ class NeuralNetwork:
             raise TypeError('nodes must be an integer')
         if nodes < 1:
             raise ValueError('nodes must be a positive integer')
-
         self.__W1 = np.random.randn(nodes, nx)
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
