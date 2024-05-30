@@ -17,7 +17,6 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     alpha (float): Learning rate.
     lambtha (float): L2 reg parameter.
     L (int): Number of layers in the network.
-    
     Returns:
     None: The weights and biases are updated in place.
     """
@@ -38,4 +37,4 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
 
         if l > 1:
             dA_prev = np.dot(W.T, dZ)
-            dZ = dA_prev * (1 - np.square(A_prev))  # Derivative of tanh activation
+            dZ = dA_prev * (1 - np.square(A_prev))
