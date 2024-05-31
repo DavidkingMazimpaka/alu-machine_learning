@@ -17,12 +17,11 @@ def early_stopping(cost, opt_cost, threshold, patience, count):
     Tuple[bool, int]: A boolean indicating to stop gradient descent early,
                      followed by the updated count.
     """
-    if cost - opt_cost <= threshold:
+    if opt_cost - cost <= threshold:
         count += 1
     else:
         count = 0
 
     if count < patience:
         return False, count
-    else:
-        return True, count
+    return True, count
