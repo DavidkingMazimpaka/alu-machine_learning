@@ -10,7 +10,6 @@ import tensorflow as tf
 def l2_reg_cost(cost):
     """
     Calculates the cost of a neural network with L2 regularization.
-
     Parameters:
     cost (tf.Tensor): The cost of the network without L2 regularization.
     Returns:
