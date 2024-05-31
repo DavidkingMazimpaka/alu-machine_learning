@@ -4,7 +4,6 @@ a function to calculate the cost of a NN with L2 regularization.
 """
 
 
-import numpy as np
 import tensorflow as tf
 
 
