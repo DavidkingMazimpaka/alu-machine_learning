@@ -7,9 +7,9 @@ import numpy as np
 def moving_average(data, beta):
     """ Function that calculates the weighted moving average of a data set
     Args:
-        data: numpy.ndarray of shape (1, m) containing the data to calculate
-        the moving average of
-        beta: the weight used for the moving average
+    data: numpy.ndarray of shape (1, m) containing the data to calculate
+    the moving average of
+    beta: the weight used for the moving average
     Returns: a numpy.ndarray of shape (1, m) 
     """
     v = 0
