@@ -10,8 +10,7 @@ def moving_average(data, beta):
     data: numpy.ndarray of shape (1, m) containing the data to calculate
     the moving average of
     beta: the weight used for the moving average
-    Returns: a numpy.ndarray of shape (1, m) 
-    """
+    Returns: a numpy.ndarray of shape (1, m) """
     v = 0
     result = []
     for x in range(len(data)):
