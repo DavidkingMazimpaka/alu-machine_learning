@@ -9,8 +9,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                      epochs=5, load_path="/tmp/model.ckpt",
                      save_path="/tmp/model.ckpt"):
     """ Train a mini-batch
-    Returns: 
-        str: the path where the model was saved
+    Returns: the path where the model was saved
     """
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph(load_path + '.meta')
