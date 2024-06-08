@@ -5,14 +5,12 @@ import tensorflow as tf
 
 
 def create_batch_norm_layer(prev, n, activation):
-    """ 
-    creates a batch normalization layer for a neural network in tensorflow:
+    """ creates a batch normalization layer for a neural network in tensorflow:
     Args:
-        prev: is the activated output of the previous layer
-        n: is the number of nodes in the layer to be created
-        activation: function to be used on the output of the layer
-    Returns: 
-        a tensor of the activated output for the layer """
+    prev: is the activated output of the previous layer
+    n: is the number of nodes in the layer to be created
+    activation: function to be used on the output of the layer
+    Returns: a tensor of the activated output for the layer """
     init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
     model = tf.layers.Dense(units=n, kernel_initializer=init)
     Z = model(prev)
