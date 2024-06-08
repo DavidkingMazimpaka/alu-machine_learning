@@ -14,8 +14,7 @@ def batch_norm(Z, gamma, beta, epsilon):
         beta is a numpy.ndarray of shape (1, n)  containing the offsets for Z
         epsilon is a small number used to avoid division by zero
     Returns:
-        the normalized Z matrix
- """
+        the normalized Z matrix """
     mean = Z.mean(axis=0)
     std = Z.var(axis=0)
     Z_norm = (Z - mean) / ((variance + epsilon) ** 0.5)

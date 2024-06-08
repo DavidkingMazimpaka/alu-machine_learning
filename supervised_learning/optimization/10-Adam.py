@@ -14,8 +14,7 @@ def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
         beta2 is the weight used for the second moment
         epsilon is a small number to avoid division by zero
     Returns: 
-        the Adam optimization operation
-    """
+    the Adam optimization operation"""
 
     optimizer = tf.train.AdamOptimizer(alpha, beta1, beta2, epsilon)
     return optimizer.minimize(loss)
