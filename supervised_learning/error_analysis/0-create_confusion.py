@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-""" Confusing Matrix""" 
-
+""" Confusion matrix
+"""
 
 import numpy as np
 
 
 def create_confusion_matrix(labels, logits):
-    """ Confusing Matrix"""
-    true_classes = np.argmax(labels, axis=1)
-    predicted_classes = np.argmax(logits, axis=1)
-    classes = labels.shape[1]
-    confusion_matrix = np.zeros((classes, classes))
-    for true, pred in zip(true_classes, predicted_classes):
-        confusion_matrix[true][pred] += 1
-    return confusion_matrix
+    """ creates a confusion matrix
+
+    Args:
+        labels (m, classes): correct labels in one-hot format
+        logits (m, classes): predicted labels in one-hot format
+    """
+    m, classes = labels.shape
+    confusion = np.zeros((classes, classes))
+    for i in range(m):
+        confusion[np.argmax(labels[i]), np.argmax(logits[i])] += 1
+    return confusion
