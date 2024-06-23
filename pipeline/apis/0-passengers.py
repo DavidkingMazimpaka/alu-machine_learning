@@ -7,7 +7,7 @@ import requests
 
 def availableShips(passengerCount):
     """
-    Get Star Wars ships that can hold at least the specified number of passengers.
+    Get Star Wars ships with specified number of passengers.
     Args:
     passengerCount (int): Minimum passenger capacity.
     Returns:
@@ -18,12 +18,10 @@ def availableShips(passengerCount):
     while base_url:
         response = requests.get(base_url)
         data = response.json()
-        
         for ship in data['results']:
             if ship['passengers'] != 'n/a' and ship['passengers'] != 'unknown':
                 ship_capacity = int(ship['passengers'].replace(',', ''))
                 if ship_capacity >= passengerCount:
-                    ships.append(ship['name'])
-        
+                    ships.append(ship['name']) 
         base_url = data['next']
     return ships
