@@ -22,6 +22,6 @@ def availableShips(passengerCount):
             if ship['passengers'] != 'n/a' and ship['passengers'] != 'unknown':
                 ship_capacity = int(ship['passengers'].replace(',', ''))
                 if ship_capacity >= passengerCount:
-                    ships.append(ship['name']) 
+                    ships.append(ship['name'])
         base_url = data['next']
     return ships
