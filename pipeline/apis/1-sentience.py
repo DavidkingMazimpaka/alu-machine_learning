@@ -11,16 +11,17 @@ def sentientPlanets():
     Returns:
     list: Names of planets. Empty if none found.
     """
-    base_url = "https://swapi.dev/api/species/"
-    planets = set()
-    while base_url:
-        response = requests.get(base_url)
-        data = response.json()
-        for species in data['results']:
-            if species['classification'] == 'sentient':
-                if species['homeworld']:
-                    planet_response = requests.get(species['homeworld'])
-                    planet_data = planet_response.json()
-                    planets.add(planet_data['name'])
-        base_url = data['next']
-    return list(planets)
+    url = "https://swapi-api.hbtn.io/api/species"
+    r = requests.get(url)
+    world_list = []
+    while r.status_code == 200:
+        for species in r.json()["results"]:
+            url = species["homeworld"]
+            if url is not None:
+                ur = requests.get(url)
+                world_list.append(ur.json()["name"])
+        try:
+            r = requests.get(r.json()["next"])
+        except Exception:
+            break
+    return world_list
