@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 Defines class NST that performs tasks for neural style transfer
@@ -48,8 +47,6 @@ class NST:
             calculates the style cost for generated image
         def content_cost(self, content_output):
             calculates the content cost for the generated image
-        def total cost(self, generated_image):
-            calculates the total cost for the generated image
     """
     style_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1',
                     'block4_conv1', 'block5_conv1']
@@ -278,23 +275,3 @@ class NST:
            content_output.shape != shape:
             raise TypeError(
                 "content_output must be a tensor of shape {}".format(shape))
-
-    def total_cost(self, generated_image):
-        """
-        Calculates the total cost for the generated image
-
-        parameters:
-            generated_image [tf.Tensor of shape (1, nh, nw, 3)]:
-                contains the generated image
-
-        returns:
-            (J, J_content, J_style) [tuple]:
-                J: total cost
-                J_content: content cost
-                J_style: style cost
-        """
-        shape = self.content_image.shape
-        if not isinstance(generated_image, (tf.Tensor, tf.Variable)) or \
-           generated_image.shape != shape:
-            raise TypeError(
-                "generated_image must be a tensor of shape {}".format(shape))
