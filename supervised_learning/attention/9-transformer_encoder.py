@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+"""
+Defines a class that inherits from tensorflow.keras.layers.Layer
+to create a decoder block for a transformer
+"""
+
+
 import tensorflow as tf
 import numpy as np
 
