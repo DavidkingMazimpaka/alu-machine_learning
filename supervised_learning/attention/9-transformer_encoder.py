@@ -1,121 +1,73 @@
-#!/usr/bin/env python3
-"""
-Defines a class that inherits from tensorflow.keras.layers.Layer
-to create a decoder block for a transformer
-"""
-
-
 import tensorflow as tf
-MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
+import numpy as np
 
+# Assuming you have the positional encoding and EncoderBlock implemented correctly
+positional_encoding = __import__('4-positional_encoding').positional_encoding
+EncoderBlock = __import__('7-transformer_encoder_block').EncoderBlock
 
-class DecoderBlock(tf.keras.layers.Layer):
+class Encoder(tf.keras.layers.Layer):
     """
-    Class to create a decoder block for a transformer
-
-    class constructor:
-        def __init__(self, dm, h, hidden, drop_rate=0.1)
-
-    public instance attribute:
-        mha1: the first MultiHeadAttention layer
-        mha2: the second MultiHeadAttention layer
-        dense_hidden: the hidden dense layer with hidden units, relu activation
-        dense_output: the output dense layer with dm units
-        layernorm1: the first layer norm layer, with epsilon=1e-6
-        layernorm2: the second layer norm layer, with epsilon=1e-6
-        layernorm3: the third layer norm layer, with epsilon=1e-6
-        drouput1: the first dropout layer
-        dropout2: the second dropout layer
-        dropout3: the third dropout layer
-
-    public instance method:
-        def call(self, x, encoder_output, training, look_ahead_mask,
-                    padding_mask):
-            calls the decoder block and returns the block's output
+    Class to create an encoder for a transformer.
+    
+    Attributes:
+        N (int): Number of blocks in the encoder.
+        dm (int): Dimensionality of the model.
+        embedding (tf.keras.layers.Embedding): Embedding layer for the inputs.
+        positional_encoding (numpy.ndarray): Positional encodings.
+        blocks (list): List of EncoderBlock instances.
+        dropout (tf.keras.layers.Dropout): Dropout layer for positional encodings.
     """
-    def __init__(self, dm, h, hidden, drop_rate=0.1):
+    
+    def __init__(self, N, dm, h, hidden, input_vocab, max_seq_len, drop_rate=0.1):
         """
-        Class constructor
-
-        parameters:
-            dm [int]:
-                represents the dimensionality of the model
-            h [int]:
-                represents the number of heads
-            hidden [int]:
-                represents the number of hidden units in fully connected layer
-            drop_rate [float]:
-                the dropout rate
-
-        sets the public instance attributes:
-            mha1: the first MultiHeadAttention layer
-            mha2: the second MultiHeadAttention layer
-            dense_hidden: the hidden dense layer with hidden units, relu activ.
-            dense_output: the output dense layer with dm units
-            layernorm1: the first layer norm layer, with epsilon=1e-6
-            layernorm2: the second layer norm layer, with epsilon=1e-6
-            layernorm3: the third layer norm layer, with epsilon=1e-6
-            drouput1: the first dropout layer
-            dropout2: the second dropout layer
-            dropout3: the third dropout layer
+        Class constructor.
+        
+        Parameters:
+            N (int): Number of blocks in the encoder.
+            dm (int): Dimensionality of the model.
+            h (int): Number of heads.
+            hidden (int): Number of hidden units in the fully connected layer.
+            input_vocab (int): Size of the input vocabulary.
+            max_seq_len (int): Maximum sequence length possible.
+            drop_rate (float): Dropout rate.
         """
-        if type(dm) is not int:
-            raise TypeError(
-                "dm must be int representing dimensionality of model")
-        if type(h) is not int:
-            raise TypeError(
-                "h must be int representing number of heads")
-        if type(hidden) is not int:
-            raise TypeError(
-                "hidden must be int representing number of hidden units")
-        if type(drop_rate) is not float:
-            raise TypeError(
-                "drop_rate must be float representing dropout rate")
-        super(DecoderBlock, self).__init__()
-        self.mha1 = MultiHeadAttention(dm, h)
-        self.mha2 = MultiHeadAttention(dm, h)
-        self.dense_hidden = tf.keras.layers.Dense(units=hidden,
-                                                  activation='relu')
-        self.dense_output = tf.keras.layers.Dense(units=dm)
-        self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.layernorm3 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
-        self.dropout1 = tf.keras.layers.Dropout(drop_rate)
-        self.dropout2 = tf.keras.layers.Dropout(drop_rate)
-        self.dropout3 = tf.keras.layers.Dropout(drop_rate)
+        super(Encoder, self).__init__()
+        self.N = N
+        self.dm = dm
+        
+        # Embedding layer
+        self.embedding = tf.keras.layers.Embedding(input_vocab, dm)
+        
+        # Positional encoding
+        self.positional_encoding = positional_encoding(max_seq_len, dm)
+        
+        # List of EncoderBlocks
+        self.blocks = [EncoderBlock(dm, h, hidden, drop_rate) for _ in range(N)]
+        
+        # Dropout layer
+        self.dropout = tf.keras.layers.Dropout(drop_rate)
 
-    def call(self, x, encoder_output, training, look_ahead_mask, padding_mask):
+    def call(self, x, training, mask):
         """
-        Calls the decoder block and returns the block's output
-
-        parameters:
-            x [tensor of shape (batch, target_seq_len, dm)]:
-                contains the input to the decoder block
-            encoder_output [tensor of shape (batch, input_seq_len, dm)]:
-                contains the output of the encoder
-            training [boolean]:
-                determines if the model is in training
-            look_ahead_mask:
-                mask to be applied to the first multi-head attention
-            padding_mask:
-                mask to be applied to the second multi-head attention
-
-        returns:
-            [tensor of shape (batch, target_seq_len, dm)]:
-                contains the block's output
+        Calls the encoder and returns the output.
+        
+        Parameters:
+            x (tensor): Input tensor of shape (batch, input_seq_len).
+            training (bool): Determines if the model is in training mode.
+            mask: Mask to be applied for multi-head attention.
+        
+        Returns:
+            tensor: Encoder output of shape (batch, input_seq_len, dm).
         """
-        attention_output1, _ = self.mha1(x, x, x, look_ahead_mask)
-        attention_output1 = self.dropout1(attention_output1, training=training)
-        output1 = self.layernorm1(x + attention_output1)
-
-        attention_output2, _ = self.mha2(output1, encoder_output,
-                                         encoder_output, padding_mask)
-        attention_output2 = self.dropout2(attention_output2, training=training)
-        output2 = self.layernorm2(output1 + attention_output2)
-
-        dense_output = self.dense_hidden(output2)
-        ffn_output = self.dense_output(dense_output)
-        ffn_output = self.dropout3(ffn_output, training=training)
-        output3 = self.layernorm3(output2 + ffn_output)
-
-        return output3
+        seq_len = tf.shape(x)[1]
+        
+        # Embedding and positional encoding
+        x = self.embedding(x)  # Shape: (batch, input_seq_len, dm)
+        x += self.positional_encoding[:seq_len, :]
+        x = self.dropout(x, training=training)
+        
+        # Pass through each EncoderBlock
+        for block in self.blocks:
+            x = block(x, training, mask)
+        
+        return x
