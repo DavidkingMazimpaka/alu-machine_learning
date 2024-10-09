@@ -6,62 +6,60 @@ to create transformer network
 
 
 import tensorflow as tf
+Encoder = __import__('9-transformer_encoder').Encoder
+Decoder = __import__('10-transformer_decoder').Decoder
 
-class SimpleEncoder(tf.keras.layers.Layer):
-    def __init__(self, N, dm, h, hidden, input_vocab, max_seq_input, drop_rate=0.1):
-        super(SimpleEncoder, self).__init__()
-        # Define layers here (e.g., embedding, multi-head attention, feed forward)
-        # For simplicity, we will just create a dense layer
-        self.dense = tf.keras.layers.Dense(dm)
-
-    def call(self, inputs, training, mask):
-        # Implement the forward pass
-        return self.dense(inputs)
-
-class SimpleDecoder(tf.keras.layers.Layer):
-    def __init__(self, N, dm, h, hidden, target_vocab, max_seq_target, drop_rate=0.1):
-        super(SimpleDecoder, self).__init__()
-        # Define layers here
-        self.dense = tf.keras.layers.Dense(dm)
-
-    def call(self, target, encoder_output, training, look_ahead_mask, decoder_mask):
-        # Implement the forward pass
-        return self.dense(target)
 
 class Transformer(tf.keras.layers.Layer):
+    """
+    Class to create the transformer network
+    """
     def __init__(self, N, dm, h, hidden, input_vocab, target_vocab,
                  max_seq_input, max_seq_target, drop_rate=0.1):
+        """
+        Class constructor
+        """
+        if type(N) is not int:
+            raise TypeError(
+                "N must be int representing number of blocks in the encoder")
+        if type(dm) is not int:
+            raise TypeError(
+                "dm must be int representing dimensionality of model")
+        if type(h) is not int:
+            raise TypeError(
+                "h must be int representing number of heads")
+        if type(hidden) is not int:
+            raise TypeError(
+                "hidden must be int representing number of hidden units")
+        if type(input_vocab) is not int:
+            raise TypeError(
+                "input_vocab must be int representing size of input vocab")
+        if type(target_vocab) is not int:
+            raise TypeError(
+                "target_vocab must be int representing size of target vocab")
+        if type(max_seq_input) is not int:
+            raise TypeError(
+                "max_seq_input must be int representing max length for input")
+        if type(max_seq_target) is not int:
+            raise TypeError(
+                "max_seq_target must be int representing max len for target")
+        if type(drop_rate) is not float:
+            raise TypeError(
+                "drop_rate must be float representing dropout rate")
         super(Transformer, self).__init__()
-        self.encoder = SimpleEncoder(N, dm, h, hidden, input_vocab, max_seq_input, drop_rate)
-        self.decoder = SimpleDecoder(N, dm, h, hidden, target_vocab, max_seq_target, drop_rate)
+        self.encoder = Encoder(
+            N, dm, h, hidden, input_vocab, max_seq_input, drop_rate)
+        self.decoder = Decoder(
+            N, dm, h, hidden, target_vocab, max_seq_target, drop_rate)
         self.linear = tf.keras.layers.Dense(units=target_vocab)
 
-    def call(self, inputs, target, training, encoder_mask, look_ahead_mask, decoder_mask):
+    def call(self, inputs, target, training, encoder_mask, look_ahead_mask,
+             decoder_mask):
+        """
+        Calls the transformer network and returns the transformer output
+        """
         encoder_output = self.encoder(inputs, training, encoder_mask)
-        decoder_output = self.decoder(target, encoder_output, training, look_ahead_mask, decoder_mask)
+        decoder_output = self.decoder(target, encoder_output, training,
+                                      look_ahead_mask, decoder_mask)
         final_output = self.linear(decoder_output)
         return final_output
-
-# Example usage
-if __name__ == "__main__":
-    N = 6  # Number of layers
-    dm = 512  # Dimensionality of the model
-    h = 8  # Number of heads
-    hidden = 2048  # Hidden size
-    input_vocab = 10000  # Input vocabulary size
-    target_vocab = 10000  # Target vocabulary size
-    max_seq_input = 20  # Maximum input sequence length
-    max_seq_target = 20  # Maximum target sequence length
-    drop_rate = 0.1  # Dropout rate
-
-    transformer = Transformer(N, dm, h, hidden, input_vocab, target_vocab, max_seq_input, max_seq_target, drop_rate)
-
-    # Dummy data for testing
-    inputs = tf.random.uniform((32, max_seq_input, dm))  # Batch size of 32
-    target = tf.random.uniform((32, max_seq_target, dm))  # Batch size of 32
-    encoder_mask = None  # Placeholder for encoder mask
-    look_ahead_mask = None  # Placeholder for look-ahead mask
-    decoder_mask = None  # Placeholder for decoder mask
-
-    output = transformer(inputs, target, training=True, encoder_mask=encoder_mask, look_ahead_mask=look_ahead_mask, decoder_mask=decoder_mask)
-    print(f"Output shape: {output.shape}")  # Should be (32, max_seq_target, target_vocab)
