@@ -15,13 +15,13 @@ def P_init(X, perplexity):
         X [numpy.ndarray of shape (n, d)]: dataset
             n: number of data points
             d: number of dimensions in each data point
-        perplexity [float]: the desired perplexity for the Gaussian distributions
+        perplexity [float]:
 
     Returns:
-        D [numpy.ndarray of shape (n, n)]: squared pairwise distances between data points
-        P [numpy.ndarray of shape (n, n)]: initialized P affinities
-        betas [numpy.ndarray of shape (n, 1)]: beta values
-        H [float]: Shannon entropy for the specified perplexity
+        D [numpy.ndarray of shape (n, n)]
+        P [numpy.ndarray of shape (n, n)]: 
+        betas [numpy.ndarray of shape (n, 1)]:
+        H [float]: 
     """
     n, d = X.shape
 
@@ -34,6 +34,6 @@ def P_init(X, perplexity):
     betas = np.ones((n, 1))
 
     # Calculate Shannon entropy for the specified perplexity
-    H = np.log2(perplexity) + 0.5772156649015329  # Approximate Euler-Mascheroni constant
+    H = np.log2(perplexity)
 
     return D, P, betas, H
