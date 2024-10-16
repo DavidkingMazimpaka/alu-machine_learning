@@ -3,11 +3,9 @@
 Calculates the symmetric P affinities of a dataset for t-SNE
 """
 
-
 import numpy as np
-# Import the necessary functions
-P_init = __import__('2-P-init').P_init
-HP = __import__('3-entropy').HP
+from P_init import P_init  # Adjust the import based on your file structure
+from entropy import HP  # Adjust the import based on your file structure
 
 
 def P_affinities(X, tol=1e-5, perplexity=30.0):
