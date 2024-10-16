@@ -5,7 +5,6 @@ Calculates the symmetric P affinities of a dataset for t-SNE
 
 
 import numpy as np
-
 # Import the necessary functions
 P_init = __import__('2-P-init').P_init
 HP = __import__('3-entropy').HP
