@@ -7,7 +7,7 @@ Calculates the symmetric P affinities of a dataset for t-SNE
 import numpy as np
 
 # Import the necessary functions
-P_init = __import__('2-P_init').P_init
+P_init = __import__('2-P-init').P_init
 HP = __import__('3-entropy').HP
 
 
@@ -38,10 +38,12 @@ def P_affinities(X, tol=1e-5, perplexity=30.0):
         P[i, np.concatenate((np.arange(i), np.arange(i + 1, n)))] = Pi
     # Make P symmetric
     P = (P + P.T) / 2
-    # Normalize P to sum to 1 across rows, check for zero sums
+    # Normalize P to sum to 1 across rows
     row_sums = np.sum(P, axis=1, keepdims=True)
+    # Check for zero row sums and handle them
     if np.any(row_sums == 0):
+        print("Warning: Row sums are zero; setting P to zero.")
         P = np.zeros_like(P)  # If any row sum is zero, zero out P
     else:
-        P /= row_sums  # Normalize
+        P /= row_sums  # Normalize to ensure probabilities sum to 1
     return P
