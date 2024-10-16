@@ -7,6 +7,7 @@ import numpy as np
 # Import Q_affinities from the appropriate module
 Q_affinities = __import__('5-Q_affinities').Q_affinities
 
+
 def grads(Y, P):
     """
     Calculates the gradients of Y for the t-SNE algorithm.
