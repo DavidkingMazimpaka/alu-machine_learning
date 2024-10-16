@@ -22,5 +22,5 @@ def Q_affinities(Y):
     # Calculate the Q affinities
     Q = num / np.sum(num, axis=1, keepdims=True)
     # Handle any potential division by zero in Q
-    Q[np.isnan(Q)] = 0
+    Q[np.isnan(Q)] = 0  # Set NaN Q values to zero
     return Q, num
