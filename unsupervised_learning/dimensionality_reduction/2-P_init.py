@@ -14,8 +14,8 @@ def P_init(X, perplexity):
     n, d = X.shape
     # Calculate squared pairwise distances
     D = (np.sum(X**2, axis=1).reshape(n, 1) + 
-         np.sum(X**2, axis=1) - 
-         2 * np.dot(X, X.T))
+        np.sum(X**2, axis=1) - 
+        2 * np.dot(X, X.T))
     np.fill_diagonal(D, 0)  # Set diagonal to 0
     # Initialize P affinities and beta values
     P = np.zeros((n, n))
