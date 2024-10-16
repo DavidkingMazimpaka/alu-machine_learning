@@ -16,5 +16,5 @@ def HP(Di, beta):
     # Normalize P affinities to sum to 1
     Pi /= np.sum(Pi)
     # Calculate the Shannon entropy
-    Hi = -np.sum(Pi * np.log2(Pi + 1e-12))  # Adding a small value to avoid log(0)
+    Hi = -np.sum(Pi * np.log2(Pi + 1e-12))  # Avoid log(0)
     return Hi, Pi
