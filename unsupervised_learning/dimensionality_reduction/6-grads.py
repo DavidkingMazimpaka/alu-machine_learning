@@ -23,7 +23,7 @@ def grads(Y, P):
             if P[i, j] > 0:  # Only consider pairs with non-zero affinity
                 # Contribution to the gradient
                 dY[i] += (P[i, j] - 
-                          Q[i, j]) * (Y[i] - Y[j]) 
+                Q[i, j]) * (Y[i] - Y[j]) 
     # Normalize the gradient by the number of points
     dY /= n
     return dY, Q
