@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+""" Calculates the gradients for the t-SNE algorithm. """
 
 
 import numpy as np
-
 
 # Import Q_affinities from the appropriate module
 Q_affinities = __import__('5-Q_affinities').Q_affinities
@@ -21,5 +21,7 @@ def grads(Y, P):
         for j in range(n):
             if P[i, j] > 0:  # Only consider pairs with non-zero affinity
                 # Contribution to the gradient
-                dY[i] += (P[i, j] - Q[i, j]) * (Y[i] - Y[j])
+                dY[i] += (P[i, j] - Q[i, j]) * (Y[i] - Y[j])  # No scalar multiplication
+    # Normalize the gradient by the number of points
+    dY /= n
     return dY, Q
