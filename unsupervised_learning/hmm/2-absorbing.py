@@ -9,16 +9,10 @@ import numpy as np
 
 def absorbing(P):
     '''
-    Determines if a markov chain is absorbing.
-    A Markov chain is absorbing if:
-    1. It has at least one absorbing state
-    2. It's possible to go from each non-absorbing state to at least one absorbing state
-    
+    Determines if a markov chain is absorbing.    
     Args:
         P: numpy.ndarray transition matrix
-    Returns:
-        bool: True if chain is absorbing, False if not, None if invalid input
-    '''
+    Returns: boolean    '''
     if not isinstance(P, np.ndarray) or len(P.shape) != 2:
         return None
     n1, n2 = P.shape
@@ -43,9 +37,8 @@ def absorbing(P):
     I = np.eye(len(non_absorbing))
     try:
         N = np.linalg.inv(I - Q)  # fundamental matrix
-        # If any entry in NR is 0, it means that state cannot reach any absorbing state
         reachability = np.dot(N, R)
         return np.all(reachability.sum(axis=1) > 0)
     except np.linalg.LinAlgError:
-        # If I-Q is not invertible, some states cannot reach absorbing states
+        # If I-Q is not invertible, state is not absorbing
         return False
