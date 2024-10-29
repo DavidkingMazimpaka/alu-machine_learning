@@ -1,42 +1,63 @@
 #!/usr/bin/env python3
-"""
-function that calculates  most likely sequence of HS for
-the HMM
-"""
+'''
+    Function def viterbi(
+        Observation, Emission, Transition, Initial
+    ):
+    that calculates the most likely sequence of hidden
+    states for a hidden markov model:
+'''
 
 
 import numpy as np
 
 
 def viterbi(Observation, Emission, Transition, Initial):
-    """ Performs the Viterbi algorithm for a Hidden Markov Model """
-    # ... (input validation as before)
+    '''
+    calculates the most likely sequence of hidden states
+    for a hidden markov model
+    '''
+    try:
+        T = Observation.shape[0]
+        N, M = Emission.shape
 
-    # Initialize the Viterbi matrix and path tracking
-    V = np.zeros((N, T))
-    path = np.zeros(T, dtype=int)
+        # backpointer initialization
+        backpointer = np.zeros((N, T))
 
-    # Initialization step
-    V[:, 0] = Initial.flatten() * Emission[:, Observation[0]]
-    print("Initial V:", V)
+        # F == alpha
+        # initialization α1(j) = πjbj(o1) 1 ≤ j ≤ N
+        F = np.zeros((N, T))
+        F[:, 0] = Initial.T * Emission[:, Observation[0]]
 
-    # Recursion step
-    for t in range(1, T):
-        for j in range(N):
-            trans_prob = V[:, t-1] * Transition[:, j]
-            V[j, t] = np.max(trans_prob) * Emission[j, Observation[t]]
-            path[t] = np.argmax(trans_prob)
-        print(f"V at step {t}:", V)
+        # formula shorturl.at/amtJT
+        # Recursion αt(j) == ∑Ni=1 αt−1(i)ai jbj(ot); 1≤j≤N,1<t≤T
+        for t in range(1, T):
+            for n in range(N):
+                Transitions = Transition[:, n]
+                Emissions = Emission[n, Observation[t]]
+                F[n, t] = np.amax(Transitions * F[:, t - 1]
+                                  * Emissions)
+                backpointer[n, t - 1] = np.argmax(Transitions * F[:, t - 1]
+                                                  * Emissions)
 
-    # Termination step
-    P = np.max(V[:, T-1])
-    best_last_state = np.argmax(V[:, T-1])
-    print("Final V:", V)
-    
-    # Backtrack to find the best path
-    best_path = np.zeros(T, dtype=int)
-    best_path[T-1] = best_last_state
-    for t in range(T-2, -1, -1):
-        best_path[t] = path[t+1]
+        # Path Array
+        path = [0 for i in range(T)]
+        # Find the most probable last hidden state
+        last_state = np.argmax(F[:, T - 1])
+        path[0] = last_state
 
-    return best_path.tolist(), P
+        # formula shorturl.at/uvAPU
+        backtrack_index = 1
+        for i in range(T - 2, -1, -1):
+            path[backtrack_index] = int(backpointer[int(last_state), i])
+            last_state = backpointer[int(last_state), i]
+            backtrack_index += 1
+
+        # Flip the path array using reverse to maintain main structure
+        path.reverse()
+
+        # the last of the large probability
+        P = np.amax(F[:, T - 1], axis=0)
+
+        return path, P
+    except Exception:
+        None, None
