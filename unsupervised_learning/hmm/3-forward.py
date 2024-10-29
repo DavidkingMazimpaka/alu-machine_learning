@@ -6,7 +6,9 @@ import numpy as np
 
 
 def forward(Observation, Emission, Transition, Initial):
-    """Forward algorithm for HMM returning likelihood P and path probabilities F"""
+    """Forward algorithm for HMM
+    Return: P, F
+    """
     if type(Observation) is not np.ndarray or len(Observation.shape) != 1:
         return None, None
     T = Observation.shape[0]
