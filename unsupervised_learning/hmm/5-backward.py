@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Defines function that performs the backward algorithm for a Hidden Markov Model
 """
