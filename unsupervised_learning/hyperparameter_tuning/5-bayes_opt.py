@@ -73,14 +73,11 @@ class BayesianOptimization():
             # D1: t = {D1: t−1, (xt, yt)} and update the GP
             self.gp.update(x_opt, y_opt)
             X_all_s.append(x_opt)
-
         if self.minimize is True:
             index = np.argmin(self.gp.Y)
         else:
             index = np.argmax(self.gp.Y)
-
         self.gp.X = self.gp.X[:-1]
-
         x_opt = self.gp.X[index]
         y_opt = self.gp.Y[index]
         return x_opt, y_opt
